@@ -1,0 +1,32 @@
+#include<iostream>
+#include<string>
+#include<cctype>
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    string str;
+    //string temp;
+    cout<<"enter the string";
+    getline(cin,str);
+    int n=str.size();
+    char temp[n];
+    for(int i=0;i<n;i++)
+    {
+        
+        if(!isalpha(str[i]))
+        {
+            for(int j=i;j<n;j++)
+            {
+                str[j]=str[j+1];
+            }
+        n--;
+        i--;
+        }
+    }
+    for(int i=0;i<n;i++)
+    {
+        cout<<str[i];
+    }
+    return 0;
+}
