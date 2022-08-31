@@ -1,0 +1,21 @@
+#include<iostream>
+#include<bits/stdc++.h>
+#include<string>
+using namespace std;
+int main()
+{
+    string str1,str2;
+    cout<<"enter the string";
+    getline(cin,str1);
+    int n;
+    n=str1.size();
+    str2=str1;
+    reverse(str2.begin(),str2.end());
+    if(str1==str2)
+    {
+        cout<<"yes it is palindrome";
+    }
+    else
+    cout<<"no it is not palindrome";
+    return 0;
+}
