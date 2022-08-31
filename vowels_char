@@ -1,0 +1,17 @@
+#include<iostream>
+#include<string>
+#include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    char a;
+    cout<<"enter the char:";
+    cin>>a;
+    if(a=='a' ||a=='e' ||a=='i' ||a=='u'||a=='o'||a=='A'||a=='E'||a=='I'||a=='O'||a=='U')
+    {
+        cout<<"it is vowel"<<endl;
+    }
+    else
+    cout<<"it is not a vowel";
+    return 0;
+}
