@@ -1,0 +1,41 @@
+//#include<string>
+#include<bits/stdc++.h>
+//#include<cctype>
+using namespace std;
+int main()
+{
+    string str="kannappan";
+    string sub="appan";
+    string replace="father";
+    string temp;
+    int m=sub.size();
+    int n=str.size();
+    int l=str.size();
+    int e;
+    if(m>l)
+    {
+        e=m-l;
+    }
+    else if(l>m)
+    e=l-m;
+    else
+    e=m-l;
+    int k=0;
+    for(int i=0;i<n;i++)
+    {
+        if(str[i]==sub[0])
+        {
+            temp=str.substr(i,m);
+           // cout<<temp<<endl;
+        }
+        if(temp==sub)
+        {
+            str.erase(i, m);
+            str.append(replace);
+        }
+       
+    }
+    //cout<<sum<<endl;
+    cout<<str;
+    return 0;
+}
