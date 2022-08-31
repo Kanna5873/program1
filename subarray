@@ -1,0 +1,42 @@
+#include<iostream>
+using namespace std;
+
+int main()
+{
+    int n,m;
+    cout<<"enter the value of n & m";
+    cin>>n>>m;
+    int arr[n];
+    int sub[m];
+    for(int i=0;i<n;i++)
+    {
+        int ele;
+        cout<<"enter the element of arr";
+        cin>>ele;
+        arr[i]=ele;
+    }
+    for(int i=0;i<m;i++)
+    {
+        int ele;
+        cout<<"enter the element of sub";
+        cin>>ele;
+        sub[i]=ele;
+    }
+    int count=0;
+    for(int i=0;i<m;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(sub[i]==arr[j])
+            {
+                count++;
+            }
+        }
+    }
+    if(count>=m)
+    {
+        cout<<"it is a subarray";
+    }
+    else
+    cout<<"it is not a subarray";
+    return 0;
