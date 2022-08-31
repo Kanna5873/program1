@@ -1,0 +1,20 @@
+#include<iostream>
+#include<bits/stdc++.h>
+#include<string>
+#include<cctype>
+using namespace std;
+int main()
+{
+    char a;
+    cout<<"enter the char";
+    cin>>a;
+    if(isalpha(a))
+    {
+        cout<<"alphabet";
+    }
+    else if(isdigit(a))
+    cout<<"number";
+    else
+    cout<<"symbol";
+    return 0;
+}
