@@ -1,0 +1,139 @@
+from tkinter import *
+from PIL import ImageTk
+from tkinter import messagebox
+import qrcode
+qr=qrcode.QRCode()
+import cv2
+import pandas as pd
+from csv import DictWriter
+count=0
+class Login:
+    def __init__(self,root):
+        self.root =root
+        self.root.title("bus fare")
+        self.root.geometry("1199x600+100+50")
+        self.root.resizable(False,False)
+
+        #background image
+        self.bg= ImageTk.PhotoImage(file="busimage.jpg")
+        self.bg_image=Label(self.root, image=self.bg).place(x=0,y=0,relwidth=1,relheight=1)
+
+        #login frame
+        Frame_login = Frame(self.root, bg="white")
+        Frame_login.place(x=300,y=150,width=600,height=600)
+
+        #title
+        title = Label(Frame_login,text="BUS TICKETING", font=("impact",35,"bold"),fg="#6162FF",bg="white").place(x=90,y=30)
+        
+        # entry field
+        lbl_S_NO  = Label(Frame_login,text="S_NO",font=("goudy old style",15,"bold"),fg="red",bg="white").place(x=40,y=140)
+        self.S_NO= Entry(Frame_login,font=("goudy old style",15),bg="#E7E6E6")
+        self.S_NO.place(x=170,y=140,width=320,height=35)
+
+        # entry fields
+        lbl_SOURCE  = Label(Frame_login,text="SOURCE",font=("goudy old style",15,"bold"),fg="red",bg="white").place(x=40,y=180)
+        self.SOURCE= Entry(Frame_login,font=("goudy old style",15),bg="#E7E6E6")
+        self.SOURCE.place(x=170,y=180,width=320,height=35)
+        
+        # entry field
+        lbl_ENDPOINT  = Label(Frame_login,text="ENDPOINT",font=("goudy old style",15,"bold"),fg="red",bg="white").place(x=40,y=220)
+        self.ENDPOINT= Entry(Frame_login,font=("goudy old style",15),bg="#E7E6E6")
+        self.ENDPOINT.place(x=170,y=220,width=320,height=35)
+
+        # entry field
+        lbl_FARE  = Label(Frame_login,text="FARE",font=("goudy old style",15,"bold"),fg="red",bg="white").place(x=40,y=260)
+        self.FARE= Entry(Frame_login,font=("goudy old style",15),bg="#E7E6E6")
+        self.FARE.place(x=170,y=260,width=320,height=35)
+
+        # entry field
+        lbl_DATE  = Label(Frame_login,text="DATE",font=("goudy old style",15,"bold"),fg="red",bg="white").place(x=40,y=300)
+        self.DATE= Entry(Frame_login,font=("goudy old style",15),bg="#E7E6E6")
+        self.DATE.place(x=170,y=300,width=320,height=35)
+
+        # entry field
+        lbl_TIME = Label(Frame_login,text="TIME",font=("goudy old style",15,"bold"),fg="red",bg="white").place(x=40,y=340)
+        self.TIME= Entry(Frame_login,font=("goudy old style",15),bg="#E7E6E6")
+        self.TIME.place(x=170,y=340,width=320,height=35)
+
+         
+        #button
+        sumbit = Button(Frame_login,command=self.check_function,text="SUMBIT",bd=0,font=("goudy old style",15,"bold"),fg="black",bg="white").place(x=100,y=400)
+        create = Button(Frame_login,command=self.create_qrcode,text="CREATE",bd=0,font=("goudy old style",15,"bold"),fg="black",bg="white").place(x=200,y=400)
+        save = Button(Frame_login,command=self.create_excel,text="SAVE & ADD",bd=0,font=("goudy old style",15,"bold"),fg="black",bg="white").place(x=320,y=400)
+        #add = Button(Frame_login,command=self.reset,text="ADD",bd=0,font=("goudy old style",15,"bold"),fg="black",bg="white").place(x=400,y=480)
+
+
+    def check_function(self):
+        if self.S_NO.get()=="" or self.SOURCE.get()=="" or self.ENDPOINT.get()=="" or self.FARE.get()=="" or self.DATE.get()=="" or self.TIME.get()=="":
+            messagebox.showerror("Error","ALL FIELDS ARE REQUIRED",parent=self.root)
+            
+        else:
+            messagebox.showinfo("welcome to the bus",f"welcome {self.S_NO.get()}")
+
+    def create_qrcode(self):
+        qr.add_data(self.S_NO.get())
+        qr.add_data(self.SOURCE.get())
+        qr.add_data(self.ENDPOINT.get())
+        qr.add_data(self.FARE.get())
+        qr.add_data(self.DATE.get())
+        qr.add_data(self.TIME.get())
+        qr.make(fit=True)
+        img=qr.make_image()
+        img.save("busfare12345.jpg")
+
+    def create_excel(self):
+        from csv import DictWriter
+        global count
+        if(count==0):
+            sno=[self.S_NO.get()]
+            source=[self.SOURCE.get()]
+            endpoint=[self.ENDPOINT.get()]
+            fare=[self.FARE.get()]
+            date=[self.DATE.get()]
+            time=[self.TIME.get()]
+            dict={"sno":sno,"source":source,"endpoint":endpoint,"date":date,"time":time}
+            df =pd.DataFrame(dict)
+            print(df)
+            df.to_csv('file3.csv', index=False)
+        # RESET
+            self.S_NO.delete(0,END)
+            self.SOURCE.delete(0,END)
+            self.ENDPOINT.delete(0,END)
+            self.FARE.delete(0,END)
+            self.DATE.delete(0,END)
+            self.TIME.delete(0,END)
+            count=count+1
+        else:
+            sno=[self.S_NO.get()]
+            source=[self.SOURCE.get()]
+            endpoint=[self.ENDPOINT.get()]
+            fare=[self.FARE.get()]
+            date=[self.DATE.get()]
+            time=[self.TIME.get()]
+            dict={"sno":sno,"source":source,"endpoint":endpoint,"fare":fare,"date":date,"time":time}
+            field_names = ['sno','source','endpoint','fare','date','time']
+            df =pd.DataFrame(dict)
+            with open('file3.csv','a') as f_object:
+                field_names = ['sno','source','endpoint','fare','date','time']
+                dictwriter_object =DictWriter(f_object,fieldnames=field_names)
+                dictwriter_object.writerow(dict)
+                f_object.close()
+                
+        
+        #df = pd.DataFrame({"sno":[self.S_NO.get()]})
+        #writer = pd.ExcelWriter('demo.xlsx',engine="xlsxwriter")
+        #df.to_excel(writer,sheet_name='sheet1',index=False)
+        #writer.save()
+        
+    #def reset(self):
+        #self.S_NO.delete(0,END)
+        #self.SOURCE.delete(0,END)
+        #self.ENDPOINT.delete(0,END)
+        #self.FARE.delete(0,END)
+        #self.DATE.delete(0,END)
+        #self.TIME.delete(0,END)
+
+        
+root = Tk()
+obj = Login(root)
+root.mainloop()
